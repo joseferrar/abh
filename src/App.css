@@ -1,38 +1,247 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
+
+@font-face {
+  font-family: "lato";
+  src: local("lato"), url("./packages/fonts/Lato-Regular.ttf");
+}
+
+@font-face {
+  font-family: "roboto";
+  src: local("roboto"), url("./packages/fonts/RobotoSlab-Regular.ttf");
+}
+
+@font-face {
+  font-family: "roboto-light";
+  src: local("roboto"), url("./packages/fonts/RobotoSlab-Light.ttf");
+}
+
+@font-face {
+  font-family: "gilroy";
+  src: local("gilroy"), url("./packages/fonts/Gilroy-Regular.ttf");
+}
+
+@font-face {
+  font-family: "gilroy-bold";
+  src: local("gilroy-bold"), url("./packages/fonts/RobotoSlab-Bold.ttf");
+}
+
+@font-face {
+  font-family: "montserrat-bold";
+  src: local("montserrat-bold"), url("./packages/fonts/Montserrat-Bold.ttf");
+}
+
+@font-face {
+  font-family: "poppins-light";
+  src: local("poppins-light"), url("./packages/fonts/Poppins-ExtraLight.ttf");
+}
+
+@font-face {
+  font-family: "poppins-medium";
+  src: local("poppins-medium"), url("./packages/fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: "outfit-regular";
+  src: local("outfit-regular"), url("./packages/fonts/Outfit-Regular.ttf");
+}
+
 .App {
+
+}
+
+/* .accordion_item.active .button {
+  background-color: #105057 !important;
+} */
+
+/* accordion style  */
+.button:hover .ico-1 {
+  font-size: 36px;
+  color: #fff !important;
+}
+
+/* accordion style  */
+.button .ico-1 {
+  font-size: 36px;
+  color: #c42335 !important;
+}
+
+/* right sidebar list style */
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root:hover {
+  background-color: #efc4c4 !important;
+}
+/*right sidebar list style */
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root:hover
+  .css-10hburv-MuiTypography-root {
+  color: #c42335 !important;
+}
+
+/*radio button style */
+.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+  color: #c42335 !important;
+}
+/*radio button style */
+.css-ahj2mt-MuiTypography-root {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+}
+/*radio button style */
+.redi:hover {
+  background-color: #c42335 !important;
+  color: #fff !important;
+}
+
+/*radio button style */
+.redi:hover .css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+  color: #fff !important;
+}
+/*radio button style */
+.redi:hover .css-1hbvpl3-MuiSvgIcon-root {
+  color: #fff !important;
+}
+
+.radio-link:hover {
+  color: #c42335;
+  cursor: pointer;
+}
+
+.banner-title {
+  font-family: gilroy;
+  line-height: 56px;
+  font-size: 42px !important;
+  word-spacing: 4px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.banner-subtitle {
+  font-family: roboto;
+  line-height: 50px;
+  font-size: 32px !important;
+  font-style: normal;
+  font-weight: 500;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.banner-subtitle2 {
+  line-height: 50px;
+  font-size: 24px !important;
+  margin-left: 4px !important;
+  font-family: roboto-light;
+  text-align: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* input cart */
+.input-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.icon {
+  padding: 5px;
+  border: 2px solid rgb(236, 238, 240);
+  color: #d32f2f;
+  min-width: 30px;
+  text-align: center;
+  border-radius: 0px;
+  margin-left: -2px;
+}
+
+.input-field {
+  width: 80%;
+  padding: 10px;
+  outline: none;
+  border: 2px solid rgb(236, 238, 240);
+  border-radius: 5px;
+}
+
+.input-field:focus {
+  border: 2px solid aliceblue;
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: aliceblue;
+  color: #d32f2f;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.abh-products-banner {
+  background-image: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 50%),
+      rgb(0 0 0 / 50%)
+    ),
+    url(./packages/images/productsec.png);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.abh-products-text {
+  text-align: center;
+  max-width: 1161px;
+  margin: auto;
+  padding-block: 108px;
+  padding-inline: 26px !important;
+}
+
+.abh-products-text h1 {
+  text-align: center;
+  font-family: "montserrat-bold";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 49px;
+  text-align: center;
+  color: #ffffff;
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.abh-products-text p {
+  font-family: "poppins-light";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  margin: 0;
+}
+
+@media only screen and (max-width: 548px) {
+  /* .image-media {
+    margin-top: 420px !important;
+    margin-left: -220px !important;
+    width: 600px !important;
+  } */
+  /* .image-media2 {
+    margin-top: 20px !important;
+    margin-left: -220px !important;
+    width: 600px !important;
+  } */
+  .roboto-text {
+    width: 600px;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media only screen and (max-width: 1500px) {
+  .abh-products-text {
+    padding-block: 110px;
+  }
+}
+@media only screen and (max-width: 767.98px) {
+  .abh-products-text {
+    padding-block: 20px;
+    margin-top: 20px;
   }
 }
