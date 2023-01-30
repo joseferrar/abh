@@ -5,13 +5,12 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import ArrowLeft from "../packages/images/ArrowLeft.png";
 import { Button, Container, Typography } from "@mui/material";
-import a110 from "../packages/images/a110.png";
-import "../App.css";
 import Breadcrumbs from "../components/Breadcrumbs/index";
 import { getCategoryApi } from "../api/category_api";
 import EmailSection from "../components/Sections/EmailSection";
 import FooterSection from "../components/Sections/FooterSection";
 import BottomSection from "../components/Sections/BottomSection";
+import "../App.css";
 
 //create our styles
 const classes = {
@@ -86,7 +85,7 @@ function ProductPage() {
   console.log(categories);
   return (
     <div style={classes.root}>
-      <Grid container spacing={3} marginTop={-14}>
+      <Grid container spacing={3} marginTop={-5}>
         {/*Create items with different breakpoints */}
         {/*For example,This item will be 12 units wide on extra small screens */}
         <Grid item xs={12}>
@@ -110,7 +109,7 @@ function ProductPage() {
         <Container maxWidth="xl">
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} sm={5} marginTop={3}>
-              <Breadcrumbs />
+              {/* <Breadcrumbs /> */}
             </Grid>
             {categories &&
               categories.map((category, index) => (
@@ -122,7 +121,7 @@ function ProductPage() {
                   key={index}
                   marginTop={8}
                   onClick={() =>
-                    navigate(`/products/${category?.categoryDesc}`, {
+                    navigate(`/category`, {
                       state: { category },
                     })
                   }

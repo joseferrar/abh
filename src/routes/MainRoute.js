@@ -9,12 +9,13 @@ import {
 } from "react-router-dom";
 import DetailLayout from "../Layouts/DetailLayout";
 import CategoryPage from "../pages/CategoryPage";
-import Details from "../pages/Details";
 import Home from "../pages/Home";
 import Loading from "../pages/Loading";
 import MyCart from "../pages/MyCart";
 import OrderPage from "../pages/OrderPage";
 import ProductPage from "../pages/ProductPage";
+import ProductDetails from "../pages/ProductDetails";
+import ProductList from "../pages/ProductList";
 
 const ProtectedRoute = ({ user, redirectPath = "/loading" }) => {
   if (!user) {
@@ -32,13 +33,10 @@ function MainRoute() {
       <Route path="loading" element={<Loading />} />
       <Route element={<ProtectedRoute user={user} />}>
         <Route path="/" element={<Home />} />
-        <Route element={<DetailLayout />}>
-          <Route path="/products" element={<ProductPage />} />
-          <Route path="/cart" element={<MyCart />} />
-          <Route path="/products/:id/:id" element={<Details />} />
-          <Route path="/products/:id" element={<CategoryPage />} />
-          <Route path="/orders" element={<OrderPage />} />
-        </Route>
+        <Route path="/products" element={<ProductPage />} />
+        <Route path="/category" element={<CategoryPage />} />
+        <Route path="/productList" element={<ProductList />} />     
+        <Route path="/productDetails" element={<ProductDetails />} /> 
       </Route>
     </Routes>
   );

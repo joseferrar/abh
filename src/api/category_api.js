@@ -1,5 +1,5 @@
 import { REACT_URL } from ".";
-import { getCategory } from "../features/categorySlice";
+import { getCategory, getSubCategory } from "../features/categorySlice";
 
 const getCategoryApi = () => {
   return (dispatch) => {
@@ -13,4 +13,21 @@ const getCategoryApi = () => {
   };
 };
 
-export { getCategoryApi };
+const getSubCategoryApi = (code, navigate) => {
+  return (dispatch) => {
+    REACT_URL.get(`/SubCategoryController/GetSubCategory?categoryCode=${code}`)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.response?.length === 0) {
+          navigate("/productDetails");
+        } else {
+          dispatch(getSubCategory(res.data.response));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export { getCategoryApi, getSubCategoryApi };

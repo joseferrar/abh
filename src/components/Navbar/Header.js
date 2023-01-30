@@ -169,7 +169,7 @@ function Header(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main" sx={{ p: 5 }}>
+      <Box component="main" sx={{ p: 1.5 }}>
         <Toolbar />
       </Box>
     </Box>

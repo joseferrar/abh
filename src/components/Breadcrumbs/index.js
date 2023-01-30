@@ -5,7 +5,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Link, NavLink, useRoutes } from "react-router-dom";
 import Home from "../../pages/Home";
 import MyCart from "../../pages/MyCart";
-import Details from "../../pages/Details";
+import Details from "../../pages/ProductDetails";
 import { Container } from "@mui/material";
 
 const Bread = (props) => {
@@ -18,7 +18,7 @@ const Bread = (props) => {
     <Container maxWidth="xl">
       {breadcrumbs.map(({ breadcrumb, match }, index) => {
         const data = breadcrumb.props.children?.split("%20");
-        const num = data[2]?.replace(/[0-9]/g, " ");
+        const num = data[data.length]?.replace(/[0-9]/g, " ");
         const final = data + num;
         const link = final.replace("undefined", "");
         const link2 = link.replaceAll(",", " ");
@@ -28,7 +28,7 @@ const Bread = (props) => {
         return (
           <>
             <NavLink
-              key={match.pathname}
+              key={index}
               to={match.pathname}
               style={{
                 fontSize: 16,
