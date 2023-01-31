@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   Container,
   Grid,
@@ -7,17 +9,44 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Paper,
   Typography,
 } from "@mui/material";
 import arrowleft from "../packages/images/transLeftArrow.png";
 import arrowBlackleft from "../packages/images/blackLeftArrow.png";
+import bullet from "../packages/images/bullet.png";
+import closeIcon from "../packages/images/close.png";
+import degrees from "../packages/images/360-degrees.png";
+import arrowBlackRight from "../packages/images/blackRightArrow.png";
+import { getProductDetailApi } from "../api/product_api";
+import { product_options } from "../utils/products_option";
+import RadioCard from "../components/Cards/RadioCard";
+import { useNavigate } from "react-router-dom";
 
 function ProductDetails() {
+  const navigate = useNavigate()
+  const [idx, setIdx] = useState("description");
+  const [optionCode, setOptionCode] = useState();
+  const { productDetails } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
   const [drawer, setDrawer] = useState(true);
+
+  const optionClick = (event) => {
+    setIdx(event);
+  };
+
+  const optionCodeClick = (event) => {
+    setOptionCode(event);
+  };
+  useEffect(() => {
+    dispatch(getProductDetailApi());
+  }, []);
+
+  console.log(productDetails);
   return (
-    <div>
+    <div style={{ background: "#F3F3F3", height: "165vh" }}>
       <Grid container spacing={2}>
         <Grid xs={12} sm={4} md={2}>
           <List dense={false}>
@@ -26,12 +55,11 @@ function ProductDetails() {
               style={{ height: "100vh", backgroundColor: "#E9E9E9" }}
             >
               <ListItem
-                style={{ backgroundColor: "#323B44" }}
+                style={{ backgroundColor: "#323B44", cursor: "pointer" }}
+                onClick={()=> navigate('/products')}
                 secondaryAction={
                   <IconButton
                     edge="end"
-                    aria-label="delete"
-                    onClick={() => setDrawer(false)}
                   >
                     <img src={arrowBlackleft} alt="img" />
                   </IconButton>
@@ -55,9 +83,231 @@ function ProductDetails() {
                 />
               </ListItem>
               <ListItem
+                onClick={() => optionClick("description")}
                 disablePadding
                 style={{
-                  backgroundColor: "#E9E9E9",
+                  backgroundColor: idx === "description" ? "#fff" : "#E9E9E9",
+                  padding: 30,
+                  marginBottom: 1,
+                  borderLeft:
+                    idx === "description" ? "20px solid #C42335" : null,
+                  cursor: "pointer",
+                }}
+                divider
+              >
+                <ListItemText
+                  primary={
+                    <Typography
+                      style={{
+                        fontFamily: "outfit-regular",
+                        fontSize: 18,
+                        textTransform: "uppercase",
+                      }}
+                      fontWeight={idx === "description" ? 700 : 500}
+                    >
+                      product description
+                    </Typography>
+                  }
+                />
+              </ListItem>
+              {productDetails?.optionCategories?.map((option, index) => (
+                <ListItem
+                  onClick={() => {
+                    optionCodeClick(option?.optionCatCode);
+                    optionClick(option?.optionCatName);
+                  }}
+                  key={index}
+                  disablePadding
+                  style={{
+                    backgroundColor:
+                      idx === option.optionCatName ? "#fff" : "#E9E9E9",
+                    padding: 30,
+                    marginBottom: 1,
+                    borderLeft:
+                      idx === option.optionCatName
+                        ? "20px solid #C42335"
+                        : null,
+                    cursor: "pointer",
+                  }}
+                  divider
+                >
+                  <ListItemText
+                    primary={
+                      <Typography
+                        style={{
+                          fontFamily: "outfit-regular",
+                          fontSize: 18,
+                          textTransform: "uppercase",
+                        }}
+                        fontWeight={idx === option.optionCatName ? 700 : 500}
+                      >
+                        {option?.optionCatName}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </Paper>
+          </List>
+        </Grid>
+
+        {/* proudct image content */}
+        <Grid xs={12} sm={4} md={7.5} marginLeft={2} marginTop={6}>
+          <Paper elevation={0} style={{ paddingBottom: 20 }}>
+            <Grid container spacing={2} p={2}>
+              <Grid item xs={6} sm={4} md={4}>
+                <Typography
+                  variant="subtitle1"
+                  style={{
+                    fontFamily: "outfit-regular",
+                    fontWeight: 600,
+                    fontSize: 18,
+                    lineHeight: "30px",
+
+                    marginLeft: 14,
+                  }}
+                >
+                  {productDetails?.productMaster?.productDesc}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              p={6}
+              marginLeft="auto"
+              marginRight="auto"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {productDetails?.productMaster?.imagePath?.map(
+                (product_image, i) =>
+                  i < 3 && (
+                    <Grid item xs={6} sm={4} md={4} key={i}>
+                      <img
+                        src={product_image}
+                        alt="img"
+                        width={220}
+                        height={280}
+                      />
+                    </Grid>
+                  )
+              )}
+            </Grid>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                variant="subtitle1"
+                style={{
+                  fontFamily: "poppins-medium",
+                  fontSize: 16,
+                  textTransform: "uppercase",
+                  marginRight: 6,
+                }}
+              >
+                View
+              </Typography>
+              <img src={degrees} alt="img" />
+            </div>
+          </Paper>
+          <Paper
+            elevation={0}
+            style={{ width: "100%", backgroundColor: "#E9E9E9", marginTop: 16 }}
+          >
+            <IconButton
+              style={{
+                float: "right",
+                marginRight: 12,
+                marginTop: 8,
+                marginBottom: -22,
+              }}
+            >
+              <img src={closeIcon} alt="Closeimg" />
+            </IconButton>
+            <Grid container spacing={0} p={3}>
+          
+              { idx !== 'description' && productDetails?.optionValues?.map(
+                (optionValue, index) =>
+                  optionCode === optionValue?.optionCatCode &&  (
+                    <Grid xs={12} sm={4} md={3} key={index}>
+                      <RadioCard img={optionValue?.imagePath} title={optionValue?.optionValName} price={optionValue?.price}/>
+                    </Grid>
+                  )
+              )}
+          
+              {idx === 'description' && productDetails?.prodSpec?.map((product, i) => (
+                <Grid xs={12} sm={4} md={6} key={i}>
+                  <List>
+                    <ListItem>
+                      <img src={bullet} alt="bullet" />
+
+                      <ListItemText
+                        primary={
+                          <Typography
+                            variant="subtitle1"
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "poppins-medium",
+                              fontWeight: 400,
+                              marginLeft: 6,
+                            }}
+                          >
+                            {product?.prodSpec}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  </List>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        </Grid>
+
+        {/* summary page */}
+        <Grid xs={12} sm={5} md={2.2} marginLeft={"auto"}>
+          <List dense={false}>
+            <Paper
+              elevation={1}
+              style={{ height: "100vh", backgroundColor: "#fff" }}
+            >
+              <ListItem
+                style={{ backgroundColor: "#fff" }}
+                secondaryAction={
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => setDrawer(false)}
+                  >
+                    <img src={arrowBlackRight} alt="img" />
+                  </IconButton>
+                }
+              >
+                <ListItemText
+                  primary={
+                    <Typography
+                      style={{
+                        color: "#000",
+                        fontFamily: "outfit-regular",
+                        fontWeight: 500,
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      summary
+                    </Typography>
+                  }
+                />
+              </ListItem>
+              <ListItem
+                disablePadding
+                style={{
+                  backgroundColor: "#fff",
                   padding: 30,
                   marginBottom: 1,
                   fontWeight: 100,
@@ -77,7 +327,7 @@ function ProductDetails() {
                       }}
                       fontWeight={400}
                     >
-                      finishes
+                  one
                     </Typography>
                   }
                 />
@@ -85,7 +335,7 @@ function ProductDetails() {
               <ListItem
                 disablePadding
                 style={{
-                  backgroundColor: "#E9E9E9",
+                  backgroundColor: "#fff",
                   padding: 30,
                   marginBottom: 1,
                   fontWeight: 100,
@@ -102,7 +352,7 @@ function ProductDetails() {
                       }}
                       fontWeight={400}
                     >
-                      back set
+                 one
                     </Typography>
                   }
                 />
@@ -110,7 +360,7 @@ function ProductDetails() {
               <ListItem
                 disablePadding
                 style={{
-                  backgroundColor: "#E9E9E9",
+                  backgroundColor: "#fff",
                   padding: 30,
                   marginBottom: 1,
                   fontWeight: 100,
@@ -127,7 +377,7 @@ function ProductDetails() {
                       }}
                       fontWeight={400}
                     >
-                      strike
+                     one
                     </Typography>
                   }
                 />
@@ -135,7 +385,7 @@ function ProductDetails() {
               <ListItem
                 disablePadding
                 style={{
-                  backgroundColor: "#E9E9E9",
+                  backgroundColor: "#fff",
                   padding: 30,
                   marginBottom: 1,
                   fontWeight: 100,
@@ -152,7 +402,7 @@ function ProductDetails() {
                       }}
                       fontWeight={400}
                     >
-                      handing
+                 one
                     </Typography>
                   }
                 />
@@ -160,7 +410,7 @@ function ProductDetails() {
               <ListItem
                 disablePadding
                 style={{
-                  backgroundColor: "#E9E9E9",
+                  backgroundColor: "#fff",
                   padding: 30,
                   marginBottom: 1,
                   fontWeight: 100,
@@ -177,7 +427,7 @@ function ProductDetails() {
                       }}
                       fontWeight={400}
                     >
-                      options
+                    one
                     </Typography>
                   }
                 />
@@ -185,7 +435,7 @@ function ProductDetails() {
               <ListItem
                 disablePadding
                 style={{
-                  backgroundColor: "#E9E9E9",
+                  backgroundColor: "#fff",
                   padding: 30,
                   marginBottom: 1,
                   fontWeight: 100,
@@ -202,7 +452,7 @@ function ProductDetails() {
                       }}
                       fontWeight={400}
                     >
-                      competing products
+                   one
                     </Typography>
                   }
                 />
@@ -210,7 +460,7 @@ function ProductDetails() {
               <ListItem
                 disablePadding
                 style={{
-                  backgroundColor: "#E9E9E9",
+                  backgroundColor: "#fff",
                   padding: 30,
                   marginBottom: 1,
                   fontWeight: 100,
@@ -227,18 +477,13 @@ function ProductDetails() {
                       }}
                       fontWeight={400}
                     >
-                      downloads and guides
+                 one
                     </Typography>
                   }
                 />
               </ListItem>
             </Paper>
           </List>
-        </Grid>
-        <Grid xs={12} sm={4} md={8} marginLeft={2}>
-          <Paper>
-            <h1 style={{ textAlign: "center" }}>ProductDetails</h1>
-          </Paper>
         </Grid>
       </Grid>
     </div>

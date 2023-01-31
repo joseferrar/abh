@@ -10,10 +10,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Typography from "@mui/material/Typography";
-import { IoArrowForwardSharp } from "react-icons/io5";
-import product_image from "../../images/product.png";
+import Arrow_vector from "../../packages/images/Arrow_vector.png";
 
-function RadioCard() {
+function RadioCard({ img, title, price }) {
   return (
     <div style={{ marginTop: 12 }}>
       <Card
@@ -25,12 +24,6 @@ function RadioCard() {
         }}
         elevation={0}
       >
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Typography style={{ fontWeight: "bold" }}>2-3/4"</Typography>
-          <Typography style={{ fontFamily: "lato", marginLeft: 6, fontWeight: "normal" }}>
-            Backset
-          </Typography>
-        </div>
         <CardMedia
           component="img"
           alt="green iguana"
@@ -41,9 +34,18 @@ function RadioCard() {
             marginLeft: "auto",
             marginTop: "18px",
           }}
-          image={product_image}
+          image={img}
         />
-
+        <Typography
+          style={{
+            fontFamily: "poppins-medium",
+            marginLeft: 6,
+            fontWeight: "normal",
+            textAlign: "center",
+          }}
+        >
+          {title}
+        </Typography>
         <div
           className="redi"
           style={{
@@ -51,11 +53,11 @@ function RadioCard() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            padding: "14px 82px",
+            padding: "1px 82px",
             backgroundColor: "#F4F4F4",
             marginTop: "20px",
             "&:hover": {
-              backgroundColor: "red",
+              backgroundColor: "#323B44",
             },
           }}
         >
@@ -69,19 +71,33 @@ function RadioCard() {
                 className="custon-radio"
                 value="other"
                 control={<Radio />}
-                label="$300.00"
+                label={`$${price}`}
               />
             </RadioGroup>
           </FormControl>
         </div>
 
-        <CardActions style={{display: "flex", justifyContent: "center"}} className="radio-link">
+        <CardActions
+          style={{ display: "flex", justifyContent: "center" }}
+          className="radio-link"
+        >
           {/* <Button size="small">Share</Button>
           <Button size="small">Learn More</Button> */}
-          <Typography style={{ fontFamily: "lato", marginLeft: 6, fontWeight: "normal" }}>
+          <Typography
+            style={{ fontFamily: "lato", marginLeft: 6, fontWeight: "normal" }}
+          >
             More Information
           </Typography>
-          <IoArrowForwardSharp style={{ marginLeft: 10, marginTop:4, fontSize: 26, fontWeight: "bold" }}/>
+          <img
+            src={Arrow_vector}
+            alt="Arrow_vector"
+            style={{
+              marginLeft: 10,
+              marginTop: 0,
+              width: 20,
+              fontWeight: "bold",
+            }}
+          />
         </CardActions>
       </Card>
     </div>
