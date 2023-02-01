@@ -16,6 +16,7 @@ import OrderPage from "../pages/OrderPage";
 import ProductPage from "../pages/ProductPage";
 import ProductDetails from "../pages/ProductDetails";
 import ProductList from "../pages/ProductList";
+import CartPage from "../pages/CartPage";
 
 const ProtectedRoute = ({ user, redirectPath = "/loading" }) => {
   if (!user) {
@@ -37,6 +38,7 @@ function MainRoute() {
         <Route path="/category" element={<CategoryPage />} />
         <Route path="/productList" element={<ProductList />} />     
         <Route path="/productDetails" element={<ProductDetails />} /> 
+        <Route path="/cart" element={<CartPage />} />
       </Route>
     </Routes>
   );

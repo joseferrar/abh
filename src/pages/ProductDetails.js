@@ -182,9 +182,9 @@ function ProductDetails() {
                                       }}
                                       fontWeight={idx === "options" ? 700 : 500}
                                       color={
-                                        mandatory ===
-                                        optionCategory?.optionCatName
-                                          ? "red"
+                                        optionCode ===
+                                        optionCategory?.optionCatCode
+                                          ? "#C42335"
                                           : "#000"
                                       }
                                     >
@@ -411,7 +411,7 @@ function ProductDetails() {
                       <Typography
                         variant="subtitle1"
                         style={{
-                          fontSize: 16,
+                          fontSize: 15,
                           color: "#000",
                           fontFamily: "outfit-regular",
                           fontWeight: 700,
@@ -466,7 +466,7 @@ function ProductDetails() {
                       fontWeight: 700,
                     }}
                   >
-                    {productDetails?.summaryDetails?.grandTotal}
+                    {`$${productDetails?.summaryDetails?.grandTotal}`}
                   </Typography>
                 }
               >
@@ -486,7 +486,7 @@ function ProductDetails() {
                   }
                 />
               </ListItem>
-              <Button style={{ width: "90%", borderRadius: 30, margin: 12 }}>
+              <Button style={{ width: "90%", borderRadius: 30, margin: 12 }} onClick={()=> navigate('/cart')}>
                 <ButtonText>GO TO CART</ButtonText>
               </Button>
             </Paper>
