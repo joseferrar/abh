@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {
   Container,
+  Divider,
   Grid,
   IconButton,
   List,
@@ -24,11 +25,13 @@ import { getProductDetailApi } from "../api/product_api";
 import { product_options } from "../utils/products_option";
 import RadioCard from "../components/Cards/RadioCard";
 import { useNavigate } from "react-router-dom";
+import { Button, ButtonText } from "../components/Button";
 
 function ProductDetails() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [idx, setIdx] = useState("description");
   const [optionCode, setOptionCode] = useState();
+  const [mandatory, setMandatory] = useState();
   const { productDetails } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [drawer, setDrawer] = useState(true);
@@ -40,11 +43,24 @@ function ProductDetails() {
   const optionCodeClick = (event) => {
     setOptionCode(event);
   };
+
+  const mandatoryClick = (event) => {
+    setMandatory(event);
+  };
   useEffect(() => {
     dispatch(getProductDetailApi());
   }, []);
 
-  console.log(productDetails);
+  // console.log(mandatory);
+
+  productDetails?.optionValues
+    ?.filter((employee) => {
+      return employee?.optionValCode === "US4";
+    })
+    .map((emp) => {
+      console.log(emp);
+    });
+
   return (
     <div style={{ background: "#F3F3F3", height: "165vh" }}>
       <Grid container spacing={2}>
@@ -56,11 +72,9 @@ function ProductDetails() {
             >
               <ListItem
                 style={{ backgroundColor: "#323B44", cursor: "pointer" }}
-                onClick={()=> navigate('/products')}
+                onClick={() => navigate("/products")}
                 secondaryAction={
-                  <IconButton
-                    edge="end"
-                  >
+                  <IconButton edge="end">
                     <img src={arrowBlackleft} alt="img" />
                   </IconButton>
                 }
@@ -107,6 +121,82 @@ function ProductDetails() {
                     >
                       product description
                     </Typography>
+                  }
+                />
+              </ListItem>
+              <ListItem
+                onClick={() => {
+                  optionClick("options");
+                }}
+                disablePadding
+                style={{
+                  backgroundColor: idx === "options" ? "#fff" : "#E9E9E9",
+                  padding: 30,
+                  marginBottom: 1,
+                  borderLeft: idx === "options" ? "20px solid #C42335" : null,
+                  cursor: "pointer",
+                }}
+                divider
+              >
+                <ListItemText
+                  primary={
+                    <div>
+                      <Typography
+                        style={{
+                          fontFamily: "outfit-regular",
+                          fontSize: 18,
+                          textTransform: "uppercase",
+                          marginBottom: 12,
+                        }}
+                        fontWeight={idx === "options" ? 700 : 500}
+                      >
+                        options
+                      </Typography>
+                      {idx === "options" && (
+                        <div>
+                          {productDetails &&
+                            productDetails?.optionCategories?.map(
+                              (optionCategory, index) =>
+                                optionCategory?.isMandatory === false ? (
+                                  <div
+                                    key={index}
+                                    onClick={() => {
+                                      optionCodeClick(
+                                        optionCategory?.optionCatCode
+                                      );
+                                      optionClick(
+                                        optionCategory?.optionCatName
+                                      );
+                                      mandatoryClick(
+                                        optionCategory?.optionCatName
+                                      );
+                                    }}
+                                  >
+                                    <Typography
+                                      style={{
+                                        fontFamily: "poppins-light",
+                                        fontSize: 14,
+                                        marginBottom: 12,
+                                        marginTop: 12,
+                                        cursor: "pointer",
+                                      }}
+                                      fontWeight={idx === "options" ? 700 : 500}
+                                      color={
+                                        mandatory ===
+                                        optionCategory?.optionCatName
+                                          ? "red"
+                                          : "#000"
+                                      }
+                                    >
+                                      {optionCategory?.optionCatName}
+                                    </Typography>
+                                    <Divider />
+                                  </div>
+                                ) : null
+                            )}
+                        </div>
+                      )}
+                    </div>
                   }
                 />
               </ListItem>
@@ -231,41 +321,46 @@ function ProductDetails() {
               <img src={closeIcon} alt="Closeimg" />
             </IconButton>
             <Grid container spacing={0} p={3}>
-          
-              { idx !== 'description' && productDetails?.optionValues?.map(
-                (optionValue, index) =>
-                  optionCode === optionValue?.optionCatCode &&  (
-                    <Grid xs={12} sm={4} md={3} key={index}>
-                      <RadioCard img={optionValue?.imagePath} title={optionValue?.optionValName} price={optionValue?.price}/>
-                    </Grid>
-                  )
-              )}
-          
-              {idx === 'description' && productDetails?.prodSpec?.map((product, i) => (
-                <Grid xs={12} sm={4} md={6} key={i}>
-                  <List>
-                    <ListItem>
-                      <img src={bullet} alt="bullet" />
+              {idx !== "description" &&
+                productDetails?.optionValues?.map(
+                  (optionValue, index) =>
+                    optionCode === optionValue?.optionCatCode && (
+                      <Grid xs={12} sm={4} md={3} key={index}>
+                        <RadioCard
+                          img={optionValue?.multiImagePath[0]}
+                          title={optionValue?.optionValName}
+                          price={optionValue?.price}
+                        />
+                      </Grid>
+                    )
+                )}
 
-                      <ListItemText
-                        primary={
-                          <Typography
-                            variant="subtitle1"
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "poppins-medium",
-                              fontWeight: 400,
-                              marginLeft: 6,
-                            }}
-                          >
-                            {product?.prodSpec}
-                          </Typography>
-                        }
-                      />
-                    </ListItem>
-                  </List>
-                </Grid>
-              ))}
+              {idx === "description" &&
+                productDetails?.prodSpec?.map((product, i) => (
+                  <Grid xs={12} sm={4} md={6} key={i}>
+                    <List>
+                      <ListItem>
+                        <img src={bullet} alt="bullet" />
+
+                        <ListItemText
+                          primary={
+                            <Typography
+                              variant="subtitle1"
+                              style={{
+                                fontSize: 16,
+                                fontFamily: "poppins-medium",
+                                fontWeight: 400,
+                                marginLeft: 6,
+                              }}
+                            >
+                              {product?.prodSpec}
+                            </Typography>
+                          }
+                        />
+                      </ListItem>
+                    </List>
+                  </Grid>
+                ))}
             </Grid>
           </Paper>
         </Grid>
@@ -292,7 +387,9 @@ function ProductDetails() {
                 <ListItemText
                   primary={
                     <Typography
+                      variant="subtitle1"
                       style={{
+                        fontSize: 20,
                         color: "#000",
                         fontFamily: "outfit-regular",
                         fontWeight: 500,
@@ -304,184 +401,94 @@ function ProductDetails() {
                   }
                 />
               </ListItem>
+              <Divider />
+
+              {productDetails?.summaryDetails?.selectedOptDetrail?.map(
+                (summary, i) => (
+                  <ListItem
+                    key={i}
+                    secondaryAction={
+                      <Typography
+                        variant="subtitle1"
+                        style={{
+                          fontSize: 16,
+                          color: "#000",
+                          fontFamily: "outfit-regular",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {`$${summary?.price}`}
+                      </Typography>
+                    }
+                  >
+                    <ListItemText
+                      primary={
+                        <Typography
+                          variant="subtitle1"
+                          style={{
+                            fontSize: 16,
+                            color: "#000",
+                            fontFamily: "outfit-regular",
+                            fontWeight: 700,
+                          }}
+                        >
+                          {summary?.optionCatName}
+                        </Typography>
+                      }
+                      secondary={
+                        <Typography
+                          variant="subtitle1"
+                          style={{
+                            fontSize: 14,
+                            color: "#000",
+                            fontFamily: "poppins-light",
+                            fontWeight: 700,
+                          }}
+                        >
+                          {summary?.optionValName}
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                )
+              )}
+
+              <Divider />
               <ListItem
-                disablePadding
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 30,
-                  marginBottom: 1,
-                  fontWeight: 100,
-                  "& hover": {
-                    backgroundColor: "blue",
-                  },
-                }}
                 divider
+                secondaryAction={
+                  <Typography
+                    variant="subtitle1"
+                    style={{
+                      fontSize: 18,
+                      color: "#000",
+                      fontFamily: "outfit-regular",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {productDetails?.summaryDetails?.grandTotal}
+                  </Typography>
+                }
               >
                 <ListItemText
                   primary={
                     <Typography
+                      variant="subtitle1"
                       style={{
-                        fontFamily: "outfit-regular",
                         fontSize: 18,
-                        textTransform: "uppercase",
+                        color: "#000",
+                        fontFamily: "outfit-regular",
+                        fontWeight: 500,
                       }}
-                      fontWeight={400}
                     >
-                  one
+                      Grand Total
                     </Typography>
                   }
                 />
               </ListItem>
-              <ListItem
-                disablePadding
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 30,
-                  marginBottom: 1,
-                  fontWeight: 100,
-                }}
-                divider
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      style={{
-                        fontFamily: "outfit-regular",
-                        fontSize: 18,
-                        textTransform: "uppercase",
-                      }}
-                      fontWeight={400}
-                    >
-                 one
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <ListItem
-                disablePadding
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 30,
-                  marginBottom: 1,
-                  fontWeight: 100,
-                }}
-                divider
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      style={{
-                        fontFamily: "outfit-regular",
-                        fontSize: 18,
-                        textTransform: "uppercase",
-                      }}
-                      fontWeight={400}
-                    >
-                     one
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <ListItem
-                disablePadding
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 30,
-                  marginBottom: 1,
-                  fontWeight: 100,
-                }}
-                divider
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      style={{
-                        fontFamily: "outfit-regular",
-                        fontSize: 18,
-                        textTransform: "uppercase",
-                      }}
-                      fontWeight={400}
-                    >
-                 one
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <ListItem
-                disablePadding
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 30,
-                  marginBottom: 1,
-                  fontWeight: 100,
-                }}
-                divider
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      style={{
-                        fontFamily: "outfit-regular",
-                        fontSize: 18,
-                        textTransform: "uppercase",
-                      }}
-                      fontWeight={400}
-                    >
-                    one
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <ListItem
-                disablePadding
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 30,
-                  marginBottom: 1,
-                  fontWeight: 100,
-                }}
-                divider
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      style={{
-                        fontFamily: "outfit-regular",
-                        fontSize: 18,
-                        textTransform: "uppercase",
-                      }}
-                      fontWeight={400}
-                    >
-                   one
-                    </Typography>
-                  }
-                />
-              </ListItem>
-              <ListItem
-                disablePadding
-                style={{
-                  backgroundColor: "#fff",
-                  padding: 30,
-                  marginBottom: 1,
-                  fontWeight: 100,
-                }}
-                divider
-              >
-                <ListItemText
-                  primary={
-                    <Typography
-                      style={{
-                        fontFamily: "outfit-regular",
-                        fontSize: 18,
-                        textTransform: "uppercase",
-                      }}
-                      fontWeight={400}
-                    >
-                 one
-                    </Typography>
-                  }
-                />
-              </ListItem>
+              <Button style={{ width: "90%", borderRadius: 30, margin: 12 }}>
+                <ButtonText>GO TO CART</ButtonText>
+              </Button>
             </Paper>
           </List>
         </Grid>
