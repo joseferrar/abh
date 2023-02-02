@@ -21,7 +21,7 @@ import bullet from "../packages/images/bullet.png";
 import closeIcon from "../packages/images/close.png";
 import degrees from "../packages/images/360-degrees.png";
 import arrowBlackRight from "../packages/images/blackRightArrow.png";
-import { getProductDetailApi } from "../api/product_api";
+import { CreateProdOptSelect, getProductDetailApi } from "../api/product_api";
 import { product_options } from "../utils/products_option";
 import RadioCard from "../components/Cards/RadioCard";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +35,11 @@ function ProductDetails() {
   const { productDetails } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [drawer, setDrawer] = useState(true);
+  const [paymentMethod, setPaymentMethod] = useState("true");
+
+  const radioChangeHandler = (e) => {
+    setPaymentMethod(e.target.value);
+  };
 
   const optionClick = (event) => {
     setIdx(event);
@@ -330,6 +335,21 @@ function ProductDetails() {
                           img={optionValue?.multiImagePath[0]}
                           title={optionValue?.optionValName}
                           price={optionValue?.price}
+                          value={optionValue?.isSelected}
+                          onChange={radioChangeHandler}
+                          onClick={async () => {
+                            const create_sum_option = {
+                              customercode: 1,
+                              prodCode: "6000",
+                              optionCatCode: optionValue?.optionCatCode,
+                              optionValCode: optionValue?.optionValCode,
+                              price: optionValue?.price,
+                              isMandatory: false,
+                            };
+                            await dispatch(
+                              CreateProdOptSelect(create_sum_option)
+                            );
+                          }}
                         />
                       </Grid>
                     )
@@ -486,7 +506,10 @@ function ProductDetails() {
                   }
                 />
               </ListItem>
-              <Button style={{ width: "90%", borderRadius: 30, margin: 12 }} onClick={()=> navigate('/cart')}>
+              <Button
+                style={{ width: "90%", borderRadius: 30, margin: 12 }}
+                onClick={() => navigate("/cart")}
+              >
                 <ButtonText>GO TO CART</ButtonText>
               </Button>
             </Paper>

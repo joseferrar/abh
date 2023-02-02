@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -12,7 +12,7 @@ import FormLabel from "@mui/material/FormLabel";
 import Typography from "@mui/material/Typography";
 import Arrow_vector from "../../packages/images/Arrow_vector.png";
 
-function RadioCard({ img, title, price }) {
+function RadioCard({ img, title, price, value, onChange, onClick }) {
   return (
     <div style={{ marginTop: 12 }}>
       <Card
@@ -47,6 +47,7 @@ function RadioCard({ img, title, price }) {
           {title}
         </Typography>
         <div
+          onClick={onClick}
           className="redi"
           style={{
             width: "280px",
@@ -62,18 +63,13 @@ function RadioCard({ img, title, price }) {
           }}
         >
           <FormControl style={{ fontWeight: "bold" }}>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel
-                className="custon-radio"
-                value="other"
-                control={<Radio />}
-                label={`$${price}`}
-              />
-            </RadioGroup>
+            <FormControlLabel
+              className="custon-radio"
+              checked={value}
+              onChange={onChange}
+              control={<Radio />}
+              label={`$${price}`}
+            />
           </FormControl>
         </div>
 

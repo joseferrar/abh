@@ -15,4 +15,13 @@ const getProductDetailApi = () => {
   };
 };
 
-export { getProductDetailApi };
+const CreateProdOptSelect = (data) => {
+  return (dispatch) => {
+    REACT_URL.post(`ProductController/CreateProdOptSelect`, data).then((res) => {
+      dispatch(getProductDetails(res.data.response));
+      dispatch(getProductDetailApi())
+    });
+  };
+};
+
+export { getProductDetailApi, CreateProdOptSelect };
