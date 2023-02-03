@@ -56,8 +56,6 @@ function ProductDetails() {
     dispatch(getProductDetailApi());
   }, []);
 
-  // console.log(mandatory);
-
   productDetails?.optionValues
     ?.filter((employee) => {
       return employee?.optionValCode === "US4";
@@ -66,6 +64,7 @@ function ProductDetails() {
       console.log(emp);
     });
 
+    // console.log('manddd', mandatory);
   return (
     <div style={{ background: "#F3F3F3", height: "165vh" }}>
       <Grid container spacing={2}>
@@ -173,7 +172,7 @@ function ProductDetails() {
                                         optionCategory?.optionCatName
                                       );
                                       mandatoryClick(
-                                        optionCategory?.optionCatName
+                                        optionCategory?.isMandatory
                                       );
                                     }}
                                   >
@@ -210,6 +209,9 @@ function ProductDetails() {
                   onClick={() => {
                     optionCodeClick(option?.optionCatCode);
                     optionClick(option?.optionCatName);
+                    mandatoryClick(
+                      option?.isMandatory
+                    );
                   }}
                   key={index}
                   disablePadding
@@ -339,12 +341,14 @@ function ProductDetails() {
                           onChange={radioChangeHandler}
                           onClick={async () => {
                             const create_sum_option = {
-                              customercode: 1,
+                              customercode: 0,
+                              visitorCode: 0,
                               prodCode: "6000",
                               optionCatCode: optionValue?.optionCatCode,
                               optionValCode: optionValue?.optionValCode,
                               price: optionValue?.price,
-                              isMandatory: false,
+                              isMandatory: mandatory,
+                            
                             };
                             await dispatch(
                               CreateProdOptSelect(create_sum_option)

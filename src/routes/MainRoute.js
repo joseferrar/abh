@@ -11,7 +11,6 @@ import DetailLayout from "../Layouts/DetailLayout";
 import CategoryPage from "../pages/CategoryPage";
 import Home from "../pages/Home";
 import Loading from "../pages/Loading";
-import MyCart from "../pages/MyCart";
 import OrderPage from "../pages/OrderPage";
 import ProductPage from "../pages/ProductPage";
 import ProductDetails from "../pages/ProductDetails";
@@ -36,7 +35,7 @@ function MainRoute() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/category" element={<CategoryPage />} />
-        <Route path="/productList" element={<ProductList />} />     
+        <Route path="/product/:id/:id/" element={<ProductList />} />         
         <Route path="/productDetails" element={<ProductDetails />} /> 
         <Route path="/cart" element={<CartPage />} />
       </Route>

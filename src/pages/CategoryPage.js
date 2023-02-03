@@ -120,9 +120,19 @@ function CategoryPage(props) {
                 marginTop={3}
                 key={index}
                 onClick={() =>
-                  navigate(`/productDetails`, {
-                    state: 'test' ,
-                  })
+                  navigate(
+                    `/product/${category?.categoryCode}/${subCategory?.subCategoryCode}`,
+                    {
+                      state: {
+                        categories: {
+                          category: category,
+                          subCategory: {
+                            subCategory: subCategory,
+                          },
+                        },
+                      },
+                    }
+                  )
                 }
               >
                 <Paper

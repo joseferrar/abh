@@ -4,7 +4,6 @@ import useBreadcrumbs from "use-react-router-breadcrumbs";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Link, NavLink, useRoutes } from "react-router-dom";
 import Home from "../../pages/Home";
-import MyCart from "../../pages/MyCart";
 import Details from "../../pages/ProductDetails";
 import { Container } from "@mui/material";
 
