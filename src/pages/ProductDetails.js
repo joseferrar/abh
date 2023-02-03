@@ -24,11 +24,13 @@ import arrowBlackRight from "../packages/images/blackRightArrow.png";
 import { CreateProdOptSelect, getProductDetailApi } from "../api/product_api";
 import { product_options } from "../utils/products_option";
 import RadioCard from "../components/Cards/RadioCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, ButtonText } from "../components/Button";
 
 function ProductDetails() {
+  const location = useLocation()
   const navigate = useNavigate();
+  const { categoryCode, productCode } = location.state
   const [idx, setIdx] = useState("description");
   const [optionCode, setOptionCode] = useState();
   const [mandatory, setMandatory] = useState();
@@ -53,7 +55,7 @@ function ProductDetails() {
     setMandatory(event);
   };
   useEffect(() => {
-    dispatch(getProductDetailApi());
+    dispatch(getProductDetailApi(categoryCode, productCode));
   }, []);
 
   productDetails?.optionValues
@@ -353,6 +355,7 @@ function ProductDetails() {
                             await dispatch(
                               CreateProdOptSelect(create_sum_option)
                             );
+                           await dispatch(getProductDetailApi(categoryCode, productCode));
                           }}
                         />
                       </Grid>

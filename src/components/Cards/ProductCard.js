@@ -34,7 +34,7 @@ const classes = {
   },
 };
 
-function ProductCard({ data, index, subCategory }) {
+function ProductCard({ data, index, subCategory, categoryCode }) {
   const navigate = useNavigate();
   const [hover, setHover] = useState({});
 
@@ -56,7 +56,7 @@ function ProductCard({ data, index, subCategory }) {
     });
   };
 
-  console.log(subCategory)
+ 
   return (
     <>
       <Grid
@@ -68,8 +68,11 @@ function ProductCard({ data, index, subCategory }) {
         sm={12}
         key={index}
         onClick={() =>
-          navigate(`/product/${data?.productCode}`, {
-            state: { data },
+          navigate(`/productDetails`, {
+            state: {
+              productCode: data?.productCode,
+              categoryCode: categoryCode
+            },
           })
         }
         style={{
